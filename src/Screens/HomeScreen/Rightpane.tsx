@@ -69,14 +69,15 @@ const CardContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 2rem;
+  row-gap: 1rem;
 `;
 
 const PlaygroundCard = styled.div`
   display : flex;
   align-items : center;
   padding : 0.6rem;
-  gap : 1rem;
-  box-shadow: 5px 7px 20px -8px rgba(0,0,0,0.4);
+  gap : 2rem;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
 `;
 
 const SmallImage = styled.img`
@@ -84,10 +85,11 @@ width : 75px;
 `
 const CardContent = styled.div`
 flex-grow : 1;
+margin-left : -20px;
 
 h5{
     font-weight : 400;
-    font-size : 1.2rem;
+    font-size : 1 rem;
     margin-bottom : 0.5rem;
 }
 `;
@@ -95,7 +97,7 @@ h5{
 const Icons = styled.div`
 display : flex;
 gap : 0.5rem;
-font-size : 1.2rem;
+font-size : 1 rem;
 `
 const RightPane = () => {
   return (
