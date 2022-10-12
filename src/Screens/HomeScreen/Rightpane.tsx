@@ -14,6 +14,10 @@ interface headingSize {
 const StyledRightPane = styled.div`
   padding: 2rem;
   background: #fafafa;
+  position : absolute;
+  width : 60%;
+  right : 0;
+  top : 0;
 `;
 
 const Header = styled.div<HeaderProps>`
@@ -110,6 +114,49 @@ const RightPane = () => {
           <AddButton> + New Folder</AddButton>
         </div>
       </Header>
+      <Folder>
+        <Header variant="secondary">
+          <Heading size="secondary">Data Structures</Heading>
+          <div className="AddButton">
+            <span>+</span> New Playground
+          </div>
+        </Header>
+        <CardContainer>
+          <PlaygroundCard>
+            <SmallImage src="./logo-small.png" alt="" />
+            <CardContent>
+              <h5>Stack implementation</h5>
+              <p>Language : C++</p>
+            </CardContent>
+            <Icons>
+              <BsTrashFill />
+              <AiTwotoneEdit />
+            </Icons>
+          </PlaygroundCard>
+          <PlaygroundCard>
+            <SmallImage src="./logo-small.png" alt="" />
+            <CardContent>
+              <h5>Stack implementation</h5>
+              <p>Language : C++</p>
+            </CardContent>
+            <Icons>
+              <BsTrashFill />
+              <AiTwotoneEdit />
+            </Icons>
+          </PlaygroundCard>
+          <PlaygroundCard>
+            <SmallImage src="./logo-small.png" alt="" />
+            <CardContent>
+              <h5>Stack implementation</h5>
+              <p>Language : C++</p>
+            </CardContent>
+            <Icons>
+              <BsTrashFill />
+              <AiTwotoneEdit />
+            </Icons>
+          </PlaygroundCard>
+        </CardContainer>
+      </Folder>
       <Folder>
         <Header variant="secondary">
           <Heading size="secondary">Data Structures</Heading>
