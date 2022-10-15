@@ -1,23 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { BsTrashFill } from "react-icons/bs";
 import { AiTwotoneEdit } from "react-icons/ai";
+import { ModalContext } from "../../ModalContext/ModalContext";
 
 interface HeaderProps {
   readonly variant: string;
 }
-
 interface headingSize {
   readonly size: string;
 }
-
 const StyledRightPane = styled.div`
   padding: 2rem;
   background: #fafafa;
-  position : absolute;
-  width : 60%;
-  right : 0;
-  top : 0;
+  position: absolute;
+  width: 60%;
+  right: 0;
+  top: 0;
 `;
 
 const Header = styled.div<HeaderProps>`
@@ -77,129 +76,119 @@ const CardContainer = styled.div`
 `;
 
 const PlaygroundCard = styled.div`
-  display : flex;
-  align-items : center;
-  padding : 0.6rem;
-  gap : 2rem;
+  display: flex;
+  align-items: center;
+  padding: 0.6rem;
+  gap: 2rem;
   box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
 `;
 
 const SmallImage = styled.img`
-width : 75px;
-`
+  width: 75px;
+`;
 const CardContent = styled.div`
-flex-grow : 1;
-margin-left : -20px;
+  flex-grow: 1;
+  margin-left: -20px;
 
-h5{
-    font-weight : 400;
-    font-size : 1 rem;
-    margin-bottom : 0.5rem;
-}
+  h5 {
+    font-weight: 400;
+    font-size: 1 rem;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const Icons = styled.div`
-display : flex;
-gap : 0.5rem;
-font-size : 1 rem;
-`
+  display: flex;
+  gap: 0.5rem;
+  font-size: 1 rem;
+`;
 const RightPane = () => {
+  const ModalFeatures = useContext(ModalContext)!;
+  const setIsOpen = ModalFeatures.setIsOpen;
+
+  const Folders = {
+    ["1"]: {
+      title: "Folder Title 1",
+      items: {
+        ["item1"]: {
+          title: "Stack Implementation",
+          languages: "C++",
+        },
+        ["item2"]: {
+          title: "Queue Implementation",
+          languages: "C++",
+        },
+        ["item3"]: {
+          title: "LinkedList Implementation",
+          languages: "C++",
+        },
+      },
+    },
+    ["2"]: {
+      title: "Folder Title 2",
+      items: {
+        ["item4"]: {
+          title: "Stack Implementation",
+          languages: "C++",
+        },
+        ["item5"]: {
+          title: "Queue Implementation",
+          languages: "C++",
+        },
+        ["item6"]: {
+          title: "LinkedList Implementation",
+          languages: "C++",
+        },
+      },
+    },
+  };
+
   return (
     <StyledRightPane>
       <Header variant="primary">
         <Heading size="main">
           My <span>playground</span>
         </Heading>
-        <div className="Heading">
-          <AddButton> + New Folder</AddButton>
-        </div>
+        <AddButton> + New Folder</AddButton>
       </Header>
-      <Folder>
-        <Header variant="secondary">
-          <Heading size="secondary">Data Structures</Heading>
-          <div className="AddButton">
-            <span>+</span> New Playground
-          </div>
-        </Header>
-        <CardContainer>
-          <PlaygroundCard>
-            <SmallImage src="./logo-small.png" alt="" />
-            <CardContent>
-              <h5>Stack implementation</h5>
-              <p>Language : C++</p>
-            </CardContent>
-            <Icons>
-              <BsTrashFill />
-              <AiTwotoneEdit />
-            </Icons>
-          </PlaygroundCard>
-          <PlaygroundCard>
-            <SmallImage src="./logo-small.png" alt="" />
-            <CardContent>
-              <h5>Stack implementation</h5>
-              <p>Language : C++</p>
-            </CardContent>
-            <Icons>
-              <BsTrashFill />
-              <AiTwotoneEdit />
-            </Icons>
-          </PlaygroundCard>
-          <PlaygroundCard>
-            <SmallImage src="./logo-small.png" alt="" />
-            <CardContent>
-              <h5>Stack implementation</h5>
-              <p>Language : C++</p>
-            </CardContent>
-            <Icons>
-              <BsTrashFill />
-              <AiTwotoneEdit />
-            </Icons>
-          </PlaygroundCard>
-        </CardContainer>
-      </Folder>
-      <Folder>
-        <Header variant="secondary">
-          <Heading size="secondary">Data Structures</Heading>
-          <div className="AddButton">
-            <span>+</span> New Playground
-          </div>
-        </Header>
-        <CardContainer>
-          <PlaygroundCard>
-            <SmallImage src="./logo-small.png" alt="" />
-            <CardContent>
-              <h5>Stack implementation</h5>
-              <p>Language : C++</p>
-            </CardContent>
-            <Icons>
-              <BsTrashFill />
-              <AiTwotoneEdit />
-            </Icons>
-          </PlaygroundCard>
-          <PlaygroundCard>
-            <SmallImage src="./logo-small.png" alt="" />
-            <CardContent>
-              <h5>Stack implementation</h5>
-              <p>Language : C++</p>
-            </CardContent>
-            <Icons>
-              <BsTrashFill />
-              <AiTwotoneEdit />
-            </Icons>
-          </PlaygroundCard>
-          <PlaygroundCard>
-            <SmallImage src="./logo-small.png" alt="" />
-            <CardContent>
-              <h5>Stack implementation</h5>
-              <p>Language : C++</p>
-            </CardContent>
-            <Icons>
-              <BsTrashFill />
-              <AiTwotoneEdit />
-            </Icons>
-          </PlaygroundCard>
-        </CardContainer>
-      </Folder>
+
+      {Object.entries(Folders).map(([folderId, folder]) => (
+        <Folder key={folderId}>
+          <Header variant="secondary">
+            <Heading size="secondary">{folder.title}</Heading>
+            <AddButton>
+              <span>+</span> New Playground
+            </AddButton>
+          </Header>
+
+          <CardContainer>
+            {Object.entries(folder.items).map(([cardId, card]) => (
+              <PlaygroundCard>
+                <SmallImage src="./logo-small.png" alt="" />
+                <CardContent>
+                  <h5>{card.title}</h5>
+                  <p>Language : {card.languages}</p>
+                </CardContent>
+                <Icons>
+                  <BsTrashFill />
+                  <AiTwotoneEdit
+                    onClick={() => {
+                      setIsOpen({
+                        value: true,
+                        type: "edit-card",
+                        identifier: {
+                          folderId: folderId,
+                          cardId: cardId,
+                        },
+                      });
+                    }}
+                  />
+                </Icons>
+              </PlaygroundCard>
+            ))}
+          </CardContainer>
+        </Folder>
+      ))}
     </StyledRightPane>
   );
 };
