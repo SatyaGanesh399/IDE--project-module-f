@@ -12,7 +12,7 @@ import styled from 'styled-components';
 const MainApp = styled.div`
   display : grid;
   grid-template-columns: 2fr 1fr;
-  background : red;
+  // background : red;
   height : calc(100vh - 4.5rem)
 `
 const Consoles = styled.div`
@@ -36,10 +36,10 @@ function MyPlayground() {
         <Navbar />
         <MainApp>
           <EditorContainer />
-          <div>
+          <Consoles>
             <InputConsole />
             <OutputConsole />
-          </div>
+          </Consoles>
         </MainApp>
       </div>
   );
