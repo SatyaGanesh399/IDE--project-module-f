@@ -15,9 +15,7 @@ interface PlaygroundContextType {
   deleteFolder: (folderId : string) => void;
 }
 
-export const PlaygroundContext = createContext<PlaygroundContextType | null>(
-  null
-);
+export const PlaygroundContext = createContext<PlaygroundContextType | null> (null);
 
 export interface FolderT {
   title: string;
