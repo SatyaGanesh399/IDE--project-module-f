@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { BsTrashFill } from "react-icons/bs";
 import { AiTwotoneEdit } from "react-icons/ai";
 import { ModalContext } from "../../ModalContext/ModalContext";
+import { PlaygroundContext } from "../../ModalContext/PlaygroundContext";
+import { useNavigate } from "react-router-dom";
+
 
 interface HeaderProps {
   readonly variant: string;
@@ -66,6 +69,7 @@ const AddButton = styled.button`
 
 const Folder = styled.div`
   margin-bottom: 0.5rem;
+  margin-bottom : 2rem;
 `;
 
 const CardContainer = styled.div`
@@ -81,6 +85,12 @@ const PlaygroundCard = styled.div`
   padding: 0.6rem;
   gap: 2rem;
   box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+  cursor : pointer;
+  transition : all 0.1s ease
+
+  &:hover{
+    opacity : 0.75
+  }
 `;
 
 const SmallImage = styled.img`
@@ -102,46 +112,23 @@ const Icons = styled.div`
   gap: 0.5rem;
   font-size: 1 rem;
 `;
-const RightPane = () => {
-  const ModalFeatures = useContext(ModalContext)!;
-  const setIsOpen = ModalFeatures.setIsOpen;
 
-  const Folders = {
-    ["1"]: {
-      title: "Folder Title 1",
-      items: {
-        ["item1"]: {
-          title: "Stack Implementation",
-          languages: "C++",
-        },
-        ["item2"]: {
-          title: "Queue Implementation",
-          languages: "C++",
-        },
-        ["item3"]: {
-          title: "LinkedList Implementation",
-          languages: "C++",
-        },
-      },
-    },
-    ["2"]: {
-      title: "Folder Title 2",
-      items: {
-        ["item4"]: {
-          title: "Stack Implementation",
-          languages: "C++",
-        },
-        ["item5"]: {
-          title: "Queue Implementation",
-          languages: "C++",
-        },
-        ["item6"]: {
-          title: "LinkedList Implementation",
-          languages: "C++",
-        },
-      },
-    },
-  };
+const FolderButtons = styled.div`
+display :flex;
+algn-items :center;
+justify-content : flex-end;
+`
+
+
+const RightPane = () => {
+  const makeAvailableGlobally = useContext(ModalContext)!;
+  const {openModal} = makeAvailableGlobally;
+
+  const PlaygroundFeatures = React.useContext(PlaygroundContext)!;
+  const Folders = PlaygroundFeatures.folders;
+  const {deleteCard, deleteFolder} = PlaygroundFeatures;
+
+  const navigate = useNavigate();
 
   return (
     <StyledRightPane>
@@ -149,33 +136,85 @@ const RightPane = () => {
         <Heading size="main">
           My <span>playground</span>
         </Heading>
-        <AddButton> + New Folder</AddButton>
+        <AddButton onClick={() =>{
+          openModal({
+            value :true,
+            type: '4',
+            identifier : {
+              folderId : '',
+              cardId : '',
+            },
+          })
+        }}> + New Folder</AddButton>
       </Header>
 
-      {Object.entries(Folders).map(([folderId, folder]) => (
+      {Object.entries(Folders).map(([folderId, folder] : [foldersId : string, folder :any]) => (
         <Folder key={folderId}>
           <Header variant="secondary">
             <Heading size="secondary">{folder.title}</Heading>
-            <AddButton>
+            <FolderButtons>
+            <Icons>
+                  <BsTrashFill onClick={() => {
+                    // Delete folder
+                    deleteFolder(folderId);
+                  }} />
+                  <AiTwotoneEdit onClick={() => {
+                    openModal({
+                      value :true,
+                      type: '2',
+                      identifier : {
+                        folderId : folderId,
+                        cardId : '',
+                      },
+                    })
+                  }}/>
+                </Icons>
+            </FolderButtons>
+            <AddButton
+            onClick={() =>{
+              openModal({
+                value :true,
+                type: '3',
+                identifier : {
+                  folderId : folderId,
+                  cardId : '',
+                },
+              })
+            }}
+            >
               <span>+</span> New Playground
             </AddButton>
           </Header>
 
           <CardContainer>
-            {Object.entries(folder.items).map(([cardId, card]) => (
+            {Object.entries(folder.items).map(([cardId, card] : [cardId : string, card : any]) => (
               <PlaygroundCard>
                 <SmallImage src="./logo-small.png" alt="" />
-                <CardContent>
+                <CardContent
+                onClick={() => {
+                  navigate(`/code/${folderId}/${cardId}`);
+                }}
+                >
                   <h5>{card.title}</h5>
                   <p>Language : {card.languages}</p>
                 </CardContent>
-                <Icons>
-                  <BsTrashFill />
+                <Icons 
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                >
+                  <BsTrashFill
+                   onClick={() => {
+                    // Delete Card
+                    deleteCard(folderId, cardId);
+                    
+                   }}
+                   />
                   <AiTwotoneEdit
                     onClick={() => {
-                      setIsOpen({
+                      openModal({
                         value: true,
-                        type: "edit-card",
+                        type: "1",
                         identifier: {
                           folderId: folderId,
                           cardId: cardId,
