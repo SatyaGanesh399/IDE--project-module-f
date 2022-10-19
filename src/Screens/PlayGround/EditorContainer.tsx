@@ -8,6 +8,7 @@ import { AiTwotoneEdit } from "react-icons/ai";
 import Select from 'react-select';
 
 const StyledEditorContainer = styled.div`
+height : 100vh
 display : flex;
 flex-direction : column;
 `
@@ -36,6 +37,11 @@ button {
   outline : 0;
 }
 `
+
+// const InsideCodeEditor = styled.div`
+// height : calc(100% - 12.5rem);
+// overflow -y : scroll;
+// `
 const LowerToolbar = styled.div`
 background: white;
 height : 4rem;
@@ -115,7 +121,10 @@ function EditorContainer() {
         </SelectBars>
       </UpperToolbar>
 
+
+      {/* <InsideCodeEditor> */}
       <CodeEditor />
+      {/* </InsideCodeEditor> */}
 
       <LowerToolbar>
         <ButtonGroup>

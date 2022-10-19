@@ -6,7 +6,6 @@ import { ModalContext } from "../../ModalContext/ModalContext";
 import { PlaygroundContext } from "../../ModalContext/PlaygroundContext";
 import { useNavigate } from "react-router-dom";
 
-
 interface HeaderProps {
   readonly variant: string;
 }
@@ -14,10 +13,10 @@ interface headingSize {
   readonly size: string;
 }
 const StyledRightPane = styled.div`
+  width: 60%;
   padding: 2rem;
   background: #fafafa;
   position: absolute;
-  width: 60%;
   right: 0;
   top: 0;
 `;
@@ -69,7 +68,7 @@ const AddButton = styled.button`
 
 const Folder = styled.div`
   margin-bottom: 0.5rem;
-  margin-bottom : 2rem;
+  margin-bottom: 2rem;
 `;
 
 const CardContainer = styled.div`
@@ -109,24 +108,25 @@ const CardContent = styled.div`
 
 const Icons = styled.div`
   display: flex;
+  align-items: center;
   gap: 0.5rem;
   font-size: 1 rem;
+  padding-right: 1rem;
 `;
 
 const FolderButtons = styled.div`
-display :flex;
-algn-items :center;
-justify-content : flex-end;
-`
-
+  display: flex;
+  algn-items: center;
+  justify-content: flex-end;
+`;
 
 const RightPane = () => {
   const makeAvailableGlobally = useContext(ModalContext)!;
-  const {openModal} = makeAvailableGlobally;
+  const { openModal } = makeAvailableGlobally;
 
   const PlaygroundFeatures = React.useContext(PlaygroundContext)!;
   const Folders = PlaygroundFeatures.folders;
-  const {deleteCard, deleteFolder} = PlaygroundFeatures;
+  const { deleteCard, deleteFolder } = PlaygroundFeatures;
 
   const navigate = useNavigate();
 
@@ -136,98 +136,111 @@ const RightPane = () => {
         <Heading size="main">
           My <span>playground</span>
         </Heading>
-        <AddButton onClick={() =>{
-          openModal({
-            value :true,
-            type: '4',
-            identifier : {
-              folderId : '',
-              cardId : '',
-            },
-          })
-        }}> + New Folder</AddButton>
+        <AddButton
+          onClick={() => {
+            openModal({
+              value: true,
+              type: "4",
+              identifier: {
+                folderId: "",
+                cardId: "",
+              },
+            });
+          }}
+        >
+          {" "}
+          + New Folder
+        </AddButton>
       </Header>
 
-      {Object.entries(Folders).map(([folderId, folder] : [foldersId : string, folder :any]) => (
-        <Folder key={folderId}>
-          <Header variant="secondary">
-            <Heading size="secondary">{folder.title}</Heading>
-            <FolderButtons>
-            <Icons>
-                  <BsTrashFill onClick={() => {
-                    // Delete folder
-                    deleteFolder(folderId);
-                  }} />
-                  <AiTwotoneEdit onClick={() => {
-                    openModal({
-                      value :true,
-                      type: '2',
-                      identifier : {
-                        folderId : folderId,
-                        cardId : '',
-                      },
-                    })
-                  }}/>
-                </Icons>
-            </FolderButtons>
-            <AddButton
-            onClick={() =>{
-              openModal({
-                value :true,
-                type: '3',
-                identifier : {
-                  folderId : folderId,
-                  cardId : '',
-                },
-              })
-            }}
-            >
-              <span>+</span> New Playground
-            </AddButton>
-          </Header>
-
-          <CardContainer>
-            {Object.entries(folder.items).map(([cardId, card] : [cardId : string, card : any]) => (
-              <PlaygroundCard>
-                <SmallImage src="./logo-small.png" alt="" />
-                <CardContent
-                onClick={() => {
-                  navigate(`/code/${folderId}/${cardId}`);
-                }}
-                >
-                  <h5>{card.title}</h5>
-                  <p>Language : {card.languages}</p>
-                </CardContent>
-                <Icons 
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-                >
+      {Object.entries(Folders).map(
+        ([folderId, folder]: [foldersId: string, folder: any]) => (
+          <Folder key={folderId}>
+            <Header variant="secondary">
+              <Heading size="secondary">{folder.title}</Heading>
+              <FolderButtons>
+                <Icons>
                   <BsTrashFill
-                   onClick={() => {
-                    // Delete Card
-                    deleteCard(folderId, cardId);
-                    
-                   }}
-                   />
+                    onClick={() => {
+                      // Delete folder
+                      deleteFolder(folderId);
+                    }}
+                  />
                   <AiTwotoneEdit
                     onClick={() => {
                       openModal({
                         value: true,
-                        type: "1",
+                        type: "2",
                         identifier: {
                           folderId: folderId,
-                          cardId: cardId,
+                          cardId: "",
                         },
                       });
                     }}
                   />
                 </Icons>
-              </PlaygroundCard>
-            ))}
-          </CardContainer>
-        </Folder>
-      ))}
+              
+              <AddButton
+                onClick={() => {
+                  openModal({
+                    value: true,
+                    type: "3",
+                    identifier: {
+                      folderId: folderId,
+                      cardId: "",
+                    },
+                  });
+                }}
+              >
+                <span>+</span> New Playground
+              </AddButton>
+              </FolderButtons>
+            </Header>
+
+            <CardContainer>
+              {Object.entries(folder.items).map(
+                ([cardId, card]: [cardId: string, card: any]) => (
+                  <PlaygroundCard>
+                    <SmallImage src="./logo-small.png" alt="" />
+                    <CardContent
+                      onClick={() => {
+                        navigate(`/code/${folderId}/${cardId}`);
+                      }}
+                    >
+                      <h5>{card.title}</h5>
+                      <p>Language : {card.languages}</p>
+                    </CardContent>
+                    <Icons
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      <BsTrashFill
+                        onClick={() => {
+                          // Delete Card
+                          deleteCard(folderId, cardId);
+                        }}
+                      />
+                      <AiTwotoneEdit
+                        onClick={() => {
+                          openModal({
+                            value: true,
+                            type: "1",
+                            identifier: {
+                              folderId: folderId,
+                              cardId: cardId,
+                            },
+                          });
+                        }}
+                      />
+                    </Icons>
+                  </PlaygroundCard>
+                )
+              )}
+            </CardContainer>
+          </Folder>
+        )
+      )}
     </StyledRightPane>
   );
 };

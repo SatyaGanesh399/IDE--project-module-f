@@ -1,6 +1,7 @@
 
 import React from "react";
 import { createContext } from "react";
+import { RiContactsBookLine } from "react-icons/ri";
 import { v4 as uuid } from "uuid";
 
 interface PlaygroundContextType {
@@ -69,19 +70,23 @@ const initialItems = {
   },
 }
 
+
+// Local storage was removed due to unexpected errors
+
 export default function PlaygroundProvider({ children }: { children: any }) {
   const [folders, setFolders] = React.useState(() => {
-    let localData = JSON.parse(
-      localStorage.getItem("playground-data") as string
-    );
-    localData = Object.keys(localData).length === 0 ? null : localData;
-    return localData || initialItems;
+    // let localData = JSON.parse(
+    //   localStorage.getItem("playground-data") as string
+    // );
+    // // console.log(localData);
+    // localData = Object.keys(localData).length === 0 ? null : localData;
+    return initialItems;
   });
 
 //Save all data to local storage
-  React.useEffect(() =>{
-    localStorage.setItem("playground-data", JSON.stringify(folders));
-  }, [folders]);
+  // React.useEffect(() =>{
+  //   localStorage.setItem("playground-data", JSON.stringify(folders));
+  // }, [folders]);
 
   // Creates a new Folder
 

@@ -19,12 +19,13 @@ import styled from "styled-components";
 
 
 const CodeEditorContainer = styled.div`
-height : calc(100vh - 12.5rem);
-
-& > div{
-  height : 100%;
+  height: calc(100vh - 12.5rem);
   
-}
+
+  & > div {
+    height: 100%;
+  }
+
 `;
 
 const CodeEditor = () => {
