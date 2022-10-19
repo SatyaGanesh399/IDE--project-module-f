@@ -71,7 +71,9 @@ const initialItems = {
 
 export default function PlaygroundProvider({ children }: { children: any }) {
   const [folders, setFolders] = React.useState(() => {
-    let localData = JSON.parse(localStorage.getItem("playground-data") as string);
+    let localData = JSON.parse(
+      localStorage.getItem("playground-data") as string
+    );
     localData = Object.keys(localData).length === 0 ? null : localData;
     return localData || initialItems;
   });
