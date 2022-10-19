@@ -1,4 +1,4 @@
-import { stringify } from "querystring";
+
 import React from "react";
 import { createContext } from "react";
 import { v4 as uuid } from "uuid";
@@ -15,19 +15,21 @@ interface PlaygroundContextType {
   deleteFolder: (folderId : string) => void;
 }
 
-export const PlaygroundContext = createContext<PlaygroundContextType | null> (null);
+export const PlaygroundContext = createContext<PlaygroundContextType | null>(
+  null
+);
 
 export interface FolderT {
   title: string;
   items: {
-    [Key: string]: {
+    [key: string]: {
       title: string;
-      languages: string;
+      language: string;
     };
   };
 }
 export interface FolderType {
-  [Key: string]: FolderT;
+  [key: string]: FolderT;
 }
 
 const initialItems = {
@@ -77,7 +79,7 @@ export default function PlaygroundProvider({ children }: { children: any }) {
 //Save all data to local storage
   React.useEffect(() =>{
     localStorage.setItem("playground-data", JSON.stringify(folders));
-  },[folders])
+  }, [folders]);
 
   // Creates a new Folder
 
