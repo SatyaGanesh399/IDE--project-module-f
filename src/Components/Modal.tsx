@@ -7,6 +7,7 @@ import EditCardTitle from "./Modal Types/EditCardTitle";
 import EditFolderTitle from "./Modal Types/EditFolderTitle";
 import NewCard from "./Modal Types/NewCard";
 import NewFolder from "./Modal Types/NewFolder";
+import NewFolderAndPlayground from "./Modal Types/NewFolderAndPlayground";
 
 export const ModalContainerStyles = styled.div`
   width: 100%;
@@ -110,7 +111,7 @@ function Modal() {
         {isOpen.type === "2" && <EditFolderTitle closeModal = {closeModal} identifier = {isOpen.identifier} />}
         {isOpen.type === "3" && <NewCard closeModal = {closeModal} identifier = {isOpen.identifier} />}
         {isOpen.type === "4" && <NewFolder closeModal = {closeModal} identifier = {isOpen.identifier} />}
-        
+        {isOpen.type === "5" && <NewFolderAndPlayground closeModal = {closeModal} identifier = {isOpen.identifier} />}
       </ModalContent>
     </ModalContainerStyles>
   );

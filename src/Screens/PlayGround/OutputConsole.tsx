@@ -21,12 +21,15 @@ const Header = styled.div`
   font-size: 1.25rem;
   font-weight: 700;
 
-  span {
+  button {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 1rem;
     font-weight: 400;
+    background : transparent;
+    outline:0;
+    border : 0;
 
     svg {
       font-size: 1.5rem;
@@ -36,6 +39,8 @@ const Header = styled.div`
 const OutputArea = styled.div`
   background: #e7e7e7;
   flex-grow: 1;
+  padding: 0.25rem;
+  padding-top : 0.5rem
 `;
 
 function OutputConsole() {
@@ -43,10 +48,10 @@ function OutputConsole() {
     <Console>
       <Header>
         Output Console:
-        <span>
+        <button>
           <CgExport />
           Export output
-        </span>
+        </button>
       </Header>
       <div></div>
     </Console>

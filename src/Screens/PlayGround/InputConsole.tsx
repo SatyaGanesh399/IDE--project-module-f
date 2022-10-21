@@ -21,12 +21,15 @@ const Header = styled.div`
   font-size: 1.25rem;
   font-weight: 700;
 
-  span {
+  button {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 1rem;
     font-weight: 400;
+    background : transparent;
+    outline:0;
+    border : 0;
 
     svg {
       font-size: 1.5rem;
@@ -39,6 +42,8 @@ const TextArea = styled.textarea`
   resize: none;
   border: 0;
   outline: 0;
+  padding: 0.25rem;
+  padding-top : 0.5rem
 `;
 
 function InputConsole() {
@@ -46,10 +51,10 @@ function InputConsole() {
     <Console>
       <Header>
         Input Console:
-        <span>
+        <button>
           <CgImport />
           Import output
-        </span>
+        </button>
       </Header>
       <TextArea></TextArea>
     </Console>

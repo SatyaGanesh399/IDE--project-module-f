@@ -62,7 +62,6 @@ const AddButton = styled.button`
   transition: all 0.25s ease;
   &:hover {
     opacity: 0.75;
-    scale: 1.1;
   }
 `;
 
@@ -134,7 +133,7 @@ const RightPane = () => {
     <StyledRightPane>
       <Header variant="primary">
         <Heading size="main">
-          My <span>playground</span>
+          My <span>playgrounds</span>
         </Heading>
         <AddButton
           onClick={() => {

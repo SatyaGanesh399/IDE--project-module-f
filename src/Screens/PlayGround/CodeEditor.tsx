@@ -37,6 +37,7 @@ const CodeEditor = () => {
     <CodeEditorContainer>
       <CodeMirror
         theme={theme}
+        height = '100%'
         extensions={[
           lang,
           indentUnit.of("        "),

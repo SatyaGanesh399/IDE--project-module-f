@@ -24,11 +24,9 @@ const InputWithSelect = styled.div`
   }
 `;
 
-const NewCard = ({ closeModal, identifier }: Modalprops) => {
-  const { folderId } = identifier;
+const NewFolderAndPlayground = ({ closeModal, identifier }: Modalprops) => {
 
-  // access our card from folders state
-  const { folders, createNewPlayground } = useContext(PlaygroundContext)!;
+  const { createNewFolderAndPlayground } = useContext(PlaygroundContext)!;
 
   const languageOptions = [
     { value: "c++", label: "C++" },
@@ -37,7 +35,8 @@ const NewCard = ({ closeModal, identifier }: Modalprops) => {
     { value: "python", label: "Python" },
   ];
 
-  const [title, setTitle] = useState("");
+  const [folderTitle, setFolderTitle] = useState("");
+  const [cardTitle, setCardTitle] = useState("");
   const [language, setLanguage] = useState(languageOptions[0]);
 
   const handleLanguageChange = (selectedOption: any) => {
@@ -57,11 +56,20 @@ const NewCard = ({ closeModal, identifier }: Modalprops) => {
         </CloseButton>
       </Header>
       <InputWithSelect>
+      <label>Enter Folder Name</label>
         <input
           type='text'
-          value={title}
+          value={folderTitle}
           onChange={(e) => {
-            setTitle(e.target.value);
+            setFolderTitle(e.target.value);
+          }}
+        />
+        <label>Enter Card Name</label>
+        <input
+          type='text'
+          value={cardTitle}
+          onChange={(e) => {
+            setCardTitle(e.target.value);
           }}
         />
         <Select
@@ -71,7 +79,7 @@ const NewCard = ({ closeModal, identifier }: Modalprops) => {
         />
         <button
           onClick={() => {
-            createNewPlayground(folderId, title, language.value);
+            createNewFolderAndPlayground(folderTitle, cardTitle, language.value);
             closeModal();
           }}
         >
@@ -82,4 +90,4 @@ const NewCard = ({ closeModal, identifier }: Modalprops) => {
   );
 };
 
-export default NewCard;
+export default NewFolderAndPlayground
