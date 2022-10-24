@@ -17,7 +17,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.1rem;
+  padding: 0 1rem;
   font-size: 1.25rem;
   font-weight: 700;
 
@@ -42,11 +42,20 @@ const TextArea = styled.textarea`
   resize: none;
   border: 0;
   outline: 0;
-  padding: 0.25rem;
+  padding: 0.5rem;
   padding-top : 0.5rem
+
 `;
 
-function InputConsole() {
+interface InputConsoleProps {
+  currentInput: string;
+  setCurrentInput: (newInput: string) => void;
+}
+
+const InputConsole: React.FC<InputConsoleProps> = ({
+  currentInput,
+  setCurrentInput,
+}) => {
   return (
     <Console>
       <Header>
@@ -56,7 +65,12 @@ function InputConsole() {
           Import output
         </button>
       </Header>
-      <TextArea></TextArea>
+      <TextArea
+      value={currentInput}
+      onChange={(e) => {
+        setCurrentInput(e.target.value);
+      }}
+      ></TextArea>
     </Console>
   );
 }

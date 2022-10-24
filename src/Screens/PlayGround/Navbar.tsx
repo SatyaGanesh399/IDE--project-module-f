@@ -21,6 +21,7 @@ background : transparent;
 
 const Logo = styled.img`
 width : 45px;
+height : 45px;
 `
 const MainHeading = styled.h1`
 font-size : 1.9rem;
@@ -40,8 +41,8 @@ function Navbar() {
       <NavbarContent onClick={() => {
         navigate('/')
       }}>
-        <Logo src="./logo.png" alt="" />
-        <MainHeading className='MainHeading'>
+        <Logo src="/logo.png" alt="" />
+        <MainHeading>
           <span>Code</span>Deck
         </MainHeading>
       </NavbarContent>

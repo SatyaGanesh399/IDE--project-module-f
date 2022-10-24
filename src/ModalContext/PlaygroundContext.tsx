@@ -14,6 +14,8 @@ interface PlaygroundContextType {
   editFolderTitle: (folderId : string, newFolderTitle :string) => void;
   deleteCard: (folderId : string, cardId : string) => void;
   deleteFolder: (folderId : string) => void;
+  savePlayground: (
+    folderId: string, cardId: string, newCode: string, newLanguage: string ) => void;
 }
 
 export const PlaygroundContext = createContext<PlaygroundContextType | null>(
@@ -32,6 +34,36 @@ export interface FolderT {
 export interface FolderType {
   [key: string]: FolderT;
 }
+export const languageMap: {
+  [key: string]: {
+    id: number;
+    defaultCode: string;
+  };
+} = {
+  "c++": {
+    id: 54,
+    defaultCode:
+      "# include <iostream>\n" +
+      "\n" +
+      "int main() {\n" +
+      "    // your code here\n" +
+      "    return 0;\n" +
+      "}",
+  },
+  "python": {
+    id: 71,
+    defaultCode: "# your python code here",
+  },
+  "javaScript": {
+    id: 63,
+    defaultCode: "// your javascript code here",
+  },
+  "java": {
+    id: 62,
+    defaultCode: `import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\npublic class Main\n{\n\tpublic static void main (String[] args) throws java.lang.Exception\n\t{\n\t\t//your code here\n\t}\n}`,
+  },
+};
+
 
 const initialItems = {
   [uuid()]: {
@@ -39,51 +71,24 @@ const initialItems = {
     items: {
       [uuid()]: {
         title: "Stack Implementation",
-        languages: "C++",
-      },
-      [uuid()]: {
-        title: "Queue Implementation",
-        languages: "C++",
-      },
-      [uuid()]: {
-        title: "LinkedList Implementation",
-        languages: "C++",
+        languages: "c++",
+        code : languageMap['c++'].defaultCode,
       },
     },
   },
-  [uuid()]: {
-    title: "Folder Title 2",
-    items: {
-      [uuid()]: {
-        title: "Stack Implementation",
-        languages: "C++",
-      },
-      [uuid()]: {
-        title: "Queue Implementation",
-        languages: "C++",
-      },
-      [uuid()]: {
-        title: "LinkedList Implementation",
-        languages: "C++",
-      },
-    },
-  },
+ 
 }
 
-
-// Local storage was removed due to unexpected errors
 
 export default function PlaygroundProvider({ children }: { children: any }) {
   const [folders, setFolders] = React.useState(() => {
     let localData = JSON.parse(
       localStorage.getItem("playground-data") as string
     );
-    // console.log(localData);
     localData = (localData === undefined || localData ===null || Object.keys(localData).length === 0)  ? null : localData;
     return localData || initialItems;
   });
 
-// Save all data to local storage
   React.useEffect(() =>{
     localStorage.setItem("playground-data", JSON.stringify(folders));
   }, [folders]);
@@ -113,6 +118,7 @@ export default function PlaygroundProvider({ children }: { children: any }) {
       newState[folderId].items[uuid()] = {
         title: cardTitle,
         languages: cardLanguage,
+        code : languageMap[cardLanguage].defaultCode,
       };
       return newState;
     });
@@ -133,6 +139,7 @@ export default function PlaygroundProvider({ children }: { children: any }) {
           [uuid()]: {
             title: cardTitle,
             languages: cardLanguage,
+            code : languageMap[cardLanguage].defaultCode,
           },
         },
       };
@@ -180,6 +187,20 @@ export default function PlaygroundProvider({ children }: { children: any }) {
     })
   };
 
+  const savePlayground = (
+    folderId: string,
+    cardId: string,
+    newCode: string,
+    newLanguage: string
+  ) => {
+    setFolders((oldState: any) => {
+      const newState = { ...oldState };
+      newState[folderId].items[cardId].code = newCode;
+      newState[folderId].items[cardId].language = newLanguage;
+      return newState;
+    });
+  };
+
   const makeAvailableGlobally: PlaygroundContextType = {
     folders: folders,
     setFolders: setFolders,
@@ -190,6 +211,7 @@ export default function PlaygroundProvider({ children }: { children: any }) {
     editFolderTitle: editFolderTitle,
     deleteCard :deleteCard, 
     deleteFolder: deleteFolder,
+    savePlayground: savePlayground,
   };
   
   return (

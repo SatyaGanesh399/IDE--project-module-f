@@ -14,6 +14,7 @@ interface headingSize {
 }
 const StyledRightPane = styled.div`
   width: 60%;
+  height: 100vh;
   padding: 2rem;
   background: #fafafa;
   position: absolute;

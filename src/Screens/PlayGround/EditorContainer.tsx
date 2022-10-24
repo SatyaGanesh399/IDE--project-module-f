@@ -1,143 +1,278 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import CodeEditor from './CodeEditor'
-import {MdFullscreen} from 'react-icons/md'
+import React, { useState } from "react";
+import styled from "styled-components";
+import CodeEditor from "./CodeEditor";
+import { MdFullscreen } from "react-icons/md";
 import { CgImport } from "react-icons/cg";
 import { CgExport } from "react-icons/cg";
 import { AiTwotoneEdit } from "react-icons/ai";
-import Select from 'react-select';
+import Select from "react-select";
+import { Console } from "console";
+import { ModalContext } from "../../ModalContext/ModalContext";
+import { languageMap } from "../../ModalContext/PlaygroundContext";
 
 const StyledEditorContainer = styled.div`
-height : 100vh
-display : flex;
-flex-direction : column;
-`
+  display: flex;
+  flex-direction: column;
+`;
 const UpperToolbar = styled.div`
-background: white;
-height : 4rem;
-display : flex;
-align-items : center;
-justify-content : space-between;
-padding : 0.2rem;
+  background: white;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.2rem;
 `;
 
 const Title = styled.div`
-display : flex;
-align-items:center;
-gap : 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
 
-h3{
-  font-size : 1.3rem;
-}
-
-button {
-  background : transparent;
-  font-size : 1.3rem;
-  border : 0;
-  outline : 0;
-}
-`
-
-// const InsideCodeEditor = styled.div`
-// height : calc(100% - 12.5rem);
-// overflow -y : scroll;
-// `
-const LowerToolbar = styled.div`
-background: white;
-height : 4rem;
-display : flex;
-align-items: center;
-justify-content : space-between;
-padding : 0.3rem;
-
-button{
-  background : transparent;
-  outline : 0;
-  border : 0;
-  font-size : 1.1 rem;
-  display : flex;
-  align-items : center;
-  gap : 0.75rem;
-
-  svg{
-    font-size : 1.4rem;
+  h3 {
+    font-size: 1.3rem;
   }
 
-}
-`
+  button {
+    background: transparent;
+    font-size: 1.3rem;
+    border: 0;
+    outline: 0;
+  }
+`;
+
+const LowerToolbar = styled.div`
+  background: white;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3rem;
+
+  button, label {
+    background: transparent;
+    outline: 0;
+    border: 0;
+    font-size: 1.1 rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    svg {
+      font-size: 1.4rem;
+    }
+  }
+`;
 const ButtonGroup = styled.div`
-display : flex;
-align-items : center;
-gap : 2.5rem;
-`
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+`;
 
 const RunCodeButton = styled.div`
-padding : 0.8rem 2rem;
-background-color : #0097d7 !important;
-color : white;
-font-weight : 700;
-border-weight : 0.5rem;
-margin-right : 1rem;
-`
+  padding: 0.8rem 2rem;
+  background-color: #0097d7 !important;
+  color: white;
+  font-weight: 700;
+  border-weight: 0.5rem;
+  margin-right: 1rem;
+  cursor: pointer;
+`;
+const SaveCodeButton = styled.button`
+  padding: 0.5rem 0.8rem;
+  text-align : center;
+  font-size : 1rem;
+  background-color: white !important;
+  color: #0097d7;
+  font-weight: 700;
+  border: 1px solid #0097d7;
+  margin-right: 0.5rem auto;
+  cursor: pointer;
+  transition: 0.5s ease;
+
+  &: hover {
+    color: white;
+    background-color: green !important;
+    border: 1px solid green;
+  }
+`;
 const SelectBars = styled.div`
-display : flex;
-align-items : center;
-gap : 1rem;
-`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 
+  & > div:nth-of-type(1) {
+    width: 10rem;
+  }
+  & > div:nth-of-type(2) {
+    width: 12rem;
+  }
+`;
+interface EditorContainerProps {
+  title: string;
+  currentLanguage: string;
+  currentCode: string;
+  setCurrentLanguage: (newLang: string) => void;
+  setCurrentCode: (newCode: string) => void;
+  folderId: string;
+  cardId: string;
+  saveCode: () => void;
+  runCode: () => void;
+}
 
-function EditorContainer() {
-
-  const [selectedLang, setSelectedLang] = useState(null)
-  const [selectedTheme, setSelectedTheme] = useState(null)
+const EditorContainer: React.FC<EditorContainerProps> = ({
+  title,
+  currentLanguage,
+  currentCode,
+  setCurrentLanguage,
+  setCurrentCode,
+  folderId,
+  cardId,
+  saveCode,
+  runCode,
+}) => {
+  const { openModal } = React.useContext(ModalContext)!;
 
   const LanguageOptions = [
-    {value : 'C++', label : "C++"},
-    {value : 'Java', label : "Java"},
-    {value : 'Python', label : "Python"},
-    {value : 'JavaScript', label : "JavaScript"}
-  ]
-
+    { value: "c++", label: "C++" },
+    { value: "java", label: "Java" },
+    { value: "python", label: "Python" },
+    { value: "javaScript", label: "JavaScript" },
+  ];
 
   const ThemeOptions = [
-    {value : 'duotoneLight', label : "duotoneLight"},
-    {value : 'xcodeLight', label : "xcodeLight"},
-    {value : 'okaidia', label : "okaidia"},
-    {value : 'githubDark', label : "githubDark"},
-    {value : 'darcula', label : "darcula"},
-    {value : 'bespin', label : "bespin"},
-  ]
+    { value: "duotoneLight", label: "duotoneLight" },
+    { value: "duotoneDark", label: "duotoneDark" },
+    { value: "xcodeLight", label: "xcodeLight" },
+    { value: "xcodeDark", label: "xcodeDark" },
+    { value: "okaidia", label: "okaidia" },
+    { value: "githubDark", label: "githubDark" },
+    { value: "githubLight", label: "githubLight" },
+    { value: "darcula", label: "darcula" },
+    { value: "bespin", label: "bespin" },
+  ];
+
+  const [selectedLang, setSelectedLang] = useState(() => {
+    for (let i = 0; i < LanguageOptions.length; i++) {
+      if (
+        LanguageOptions[i].value.toLowerCase() == currentLanguage.toLowerCase()
+      )
+        return LanguageOptions[i];
+    }
+    return LanguageOptions[0];
+  });
+  const [selectedTheme, setSelectedTheme] = useState({
+    value: "githubDark",
+    label: "githubDark",
+  });
+
+  function handleLanguageChange(selectedOption: any) {
+    setSelectedLang(selectedOption);
+    setCurrentLanguage(selectedOption.value);
+    setCurrentCode(languageMap[selectedOption.value].defaultCode);
+  }
+  function handleThemeChange(selectedOption: any) {
+    setSelectedTheme(selectedOption);
+  }
+
+  const getFile = (e: any) => {
+    const input = e.target;
+    if ("files" in input && input.files.length > 0) {
+      placeFileContent(input.files[0]);
+    }
+  };
+  const placeFileContent = (file: any) => {
+    readFileContent(file)
+      .then((content) => {
+        setCurrentCode(content as string);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  function readFileContent(file: any) {
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      reader.onload = (event) => resolve(event!.target!.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsText(file);
+    });
+  }
+
   return (
     <StyledEditorContainer>
-
       <UpperToolbar>
         <Title>
-      <h3>Stack implementation</h3>
-      <button><AiTwotoneEdit/></button>
+          <h3>{title}</h3>
+          <button
+            onClick={() => {
+              openModal({
+                value: true,
+                type: "1",
+                identifier: {
+                  folderId: folderId,
+                  cardId: cardId,
+                },
+              });
+            }}
+          >
+            <AiTwotoneEdit />
+          </button>
         </Title>
         <SelectBars>
-          <Select value = {selectedLang} onChange = {() => {}} options = {LanguageOptions}/>
-          <Select value = {selectedTheme} onChange = {() => {}} options = {ThemeOptions}/>
+          <SaveCodeButton
+          onClick={() => {
+            saveCode();
+          }}
+          >Save Code</SaveCodeButton>
+          <Select
+            value={selectedLang}
+            onChange={handleLanguageChange}
+            options={LanguageOptions}
+          />
+          <Select
+            value={selectedTheme}
+            onChange={handleThemeChange}
+            options={ThemeOptions}
+          />
         </SelectBars>
       </UpperToolbar>
 
-
       {/* <InsideCodeEditor> */}
-      <CodeEditor />
+      <CodeEditor
+        currentLanguage={selectedLang.value}
+        currentTheme={selectedTheme.value}
+        currentCode={currentCode}
+        setCurrentCode={setCurrentCode}
+      />
       {/* </InsideCodeEditor> */}
 
       <LowerToolbar>
         <ButtonGroup>
-          <button><MdFullscreen/>Full Screen</button>
-          <button><CgImport />Import Code</button>
-          <button><CgExport />Export Icon</button>
-          
+          <button>
+            <MdFullscreen />
+            Full Screen
+          </button>
+          <label>
+            <input
+              type='file'
+              accept='.txt'
+              style={{ display: "none" }}
+              onChange={(e) => {
+                getFile(e);
+              }}/><CgImport /> Import Code
+          </label>
+          <button>
+            <CgExport />
+            Export Icon
+          </button>
         </ButtonGroup>
-        <RunCodeButton>Run Code</RunCodeButton>
+        <RunCodeButton  
+          onClick={() => {
+            runCode();
+          }}
+          >Run Code</RunCodeButton>
       </LowerToolbar>
+    </StyledEditorContainer>
+  );
+};
 
-      </StyledEditorContainer>
-  )
-}
-
-export default EditorContainer
+export default EditorContainer;

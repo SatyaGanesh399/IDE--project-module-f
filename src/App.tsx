@@ -11,16 +11,16 @@ function App() {
     <PlaygroundProvider>
     <ModalProvider>
       <GlobalStyle />
-      {/* <MyPlayground /> */}
     <BrowserRouter>
     <Routes>
       <Route path = '/' element = {<HomeScreen />}/>
-      <Route path = '/code/:folderId/:playgroundId' element = {<MyPlayground />}/>
-      {/* for undefined paths - 404 page */}
+      <Route
+              path='/code/:folderId/:playgroundId'
+              element={<MyPlayground />}
+            />
       <Route path = '*' element = {<Page404 />}/>
-
-
     </Routes>
+
     </BrowserRouter>
     </ModalProvider> 
     </PlaygroundProvider>
