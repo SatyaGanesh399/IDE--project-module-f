@@ -140,7 +140,7 @@ const EditorContainer: React.FC<EditorContainerProps> = ({
     { value: "c++", label: "C++" },
     { value: "java", label: "Java" },
     { value: "python", label: "Python" },
-    { value: "javaScript", label: "JavaScript" },
+    { value: "javascript", label: "Javascript" },
   ];
 
   const ThemeOptions = [
