@@ -196,7 +196,7 @@ export default function PlaygroundProvider({ children }: { children: any }) {
     setFolders((oldState: any) => {
       const newState = { ...oldState };
       newState[folderId].items[cardId].code = newCode;
-      newState[folderId].items[cardId].language = newLanguage;
+      newState[folderId].items[cardId].languages = newLanguage;
       return newState;
     });
   };

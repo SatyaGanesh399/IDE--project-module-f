@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { ModalContext } from "../../ModalContext/ModalContext";
 
+
+
 const StyledLeftPane = styled.div`
   position : fixed;
   width : 40%;
@@ -61,6 +63,7 @@ const AddNewButton = styled.a`
     }
 `;
 const LeftPane = () => {
+
   const {openModal} = useContext(ModalContext)!;
   return (
     <StyledLeftPane>

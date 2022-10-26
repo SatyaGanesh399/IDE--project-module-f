@@ -10,6 +10,9 @@ const HomeScreenContainer = styled.div`
     width = 100%
     height : 100vh;
 `
+const DarkModeStyle = styled.div`
+  z-index : 3;
+`
 
 const HomeScreen = () => {
   const ModalFeatures = React.useContext(ModalContext)!;

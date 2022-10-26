@@ -5,6 +5,7 @@ import { AiTwotoneEdit } from "react-icons/ai";
 import { ModalContext } from "../../ModalContext/ModalContext";
 import { PlaygroundContext } from "../../ModalContext/PlaygroundContext";
 import { useNavigate } from "react-router-dom";
+import DarkMode from "../../DarkModeComp/DarkMode";
 
 interface HeaderProps {
   readonly variant: string;
@@ -151,6 +152,7 @@ const RightPane = () => {
           {" "}
           + New Folder
         </AddButton>
+        <DarkMode />
       </Header>
 
       {Object.entries(Folders).map(

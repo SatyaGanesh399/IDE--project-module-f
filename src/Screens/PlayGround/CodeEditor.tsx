@@ -20,15 +20,11 @@ import { indentUnit } from "@codemirror/language";
 import { EditorState } from "@codemirror/state";
 import styled from "styled-components";
 
-
 const CodeEditorContainer = styled.div`
   height: calc(100vh - 12.5rem);
-  
-
   & > div {
     height: 100%;
   }
-
 `;
 
 interface CodeEditorProps {
@@ -36,9 +32,10 @@ interface CodeEditorProps {
   currentTheme : string;
   currentCode : string;
   setCurrentCode: (newCode: string) => void;
+  fullScreen : boolean;
 }
 
-const CodeEditor : React.FC<CodeEditorProps> = ({currentLanguage, currentTheme, currentCode, setCurrentCode}) => {
+const CodeEditor : React.FC<CodeEditorProps> = ({currentLanguage, currentTheme, currentCode, setCurrentCode, fullScreen}) => {
   const [theme, setTheme] = useState<any>(duotoneDark);
   const [lang, setLang] = useState<any>(java);
 
@@ -94,6 +91,7 @@ const CodeEditor : React.FC<CodeEditorProps> = ({currentLanguage, currentTheme, 
           break;
     };
   }, [currentTheme]);
+
 
   return (
     <CodeEditorContainer>

@@ -27,6 +27,7 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  margin-left : 20px;
 
   h3 {
     font-size: 1.3rem;
@@ -35,6 +36,7 @@ const Title = styled.div`
   button {
     background: transparent;
     font-size: 1.3rem;
+    margin-top : 6px;
     border: 0;
     outline: 0;
   }
@@ -66,6 +68,7 @@ const ButtonGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 2.5rem;
+  margin-left : 25px;
 `;
 
 const RunCodeButton = styled.div`
@@ -99,12 +102,13 @@ const SelectBars = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-right : 25px;
 
   & > div:nth-of-type(1) {
-    width: 10rem;
+    width: 8rem;
   }
   & > div:nth-of-type(2) {
-    width: 12rem;
+    width: 10rem;
   }
 `;
 interface EditorContainerProps {
@@ -196,6 +200,8 @@ const EditorContainer: React.FC<EditorContainerProps> = ({
       reader.readAsText(file);
     });
   }
+  // Full Screen for code editor
+  const [fullScreen, setFullScreen] = useState(false);
 
   return (
     <StyledEditorContainer>
@@ -242,6 +248,7 @@ const EditorContainer: React.FC<EditorContainerProps> = ({
         currentTheme={selectedTheme.value}
         currentCode={currentCode}
         setCurrentCode={setCurrentCode}
+        fullScreen = {fullScreen}
       />
       {/* </InsideCodeEditor> */}
 

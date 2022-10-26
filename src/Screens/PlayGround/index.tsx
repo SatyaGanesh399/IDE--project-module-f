@@ -29,19 +29,17 @@ display: grid;
 
 const Playground = () => {
   const { folderId, playgroundId } = useParams();
-
   const { isOpen, openModal, closeModal } = useContext(ModalContext)!;
-
   const { folders, savePlayground } = useContext(PlaygroundContext)!;
-
   const { title, languages, code } =
     folders[folderId as string].items[playgroundId as string];
-    
+    // For loader to work
   const [loader, setLoader] = useState(false);
+    // Save code, language and input into the playground
   const [currentCode, setCurrentCode] = useState(code);
   const [currentInput, setCurrentInput] = useState("");
   const [currentLanguage, setCurrentLanguage] = useState(languages);
-  const [currentOutput, setCurrentOutput] = useState("");
+  const [currentOutput, setCurrentOutput] = useState("Your Output Here : ");
 
   const saveCode = () => {
     savePlayground(
