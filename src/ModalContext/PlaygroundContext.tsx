@@ -1,7 +1,6 @@
 
 import React from "react";
 import { createContext } from "react";
-import { RiContactsBookLine } from "react-icons/ri";
 import { v4 as uuid } from "uuid";
 
 interface PlaygroundContextType {
@@ -54,7 +53,7 @@ export const languageMap: {
     id: 71,
     defaultCode: "# your python code here",
   },
-  "javaScript": {
+  "javascript": {
     id: 63,
     defaultCode: "// your javascript code here",
   },
